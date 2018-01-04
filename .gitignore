@@ -3,3 +3,4 @@ dist
 /**/*.psd
 /**/Thumbs.db
 /app/**/.gitignore
+/app/css
