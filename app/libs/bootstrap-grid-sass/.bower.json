@@ -1,0 +1,27 @@
+{
+  "name": "bootstrap-grid-sass",
+  "authors": [
+    "María Reino <info@reinodenoia.com>"
+  ],
+  "description": "Bootstrap's grid and responsive utility classes. Works with sass",
+  "main": "bootstrap-grid-sass.scss",
+  "license": "MIT",
+  "keywords": [
+    "bootstrap",
+    "grid",
+    "layout",
+    "css",
+    "scss"
+  ],
+  "homepage": "https://github.com/mariolinha/bootstrap-grid-sass",
+  "_release": "13fff476fe",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "13fff476fed29b74a12b05b4d6f20a8bf171ff8d"
+  },
+  "_source": "https://github.com/mariolinha/bootstrap-grid-sass.git",
+  "_target": "*",
+  "_originalSource": "bootstrap-grid-only-sass",
+  "_direct": true
+}

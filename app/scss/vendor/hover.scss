@@ -1,0 +1,18 @@
+@import "hover/options";
+@import "hover/mixins";
+@import "hover/hacks";
+
+// ================================================
+//	
+//	1. Установить класс в html
+//		Пример: hvr-pop
+//	2. Скопипастить кусок кода из hover-table.scss
+//	
+// ================================================
+
+@import "hover/effects/2d-transitions/grow";
+@if $includeClasses {
+	.#{$nameSpace}-grow {
+		@include grow();
+	}
+}

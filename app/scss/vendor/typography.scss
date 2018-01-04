@@ -1,0 +1,38 @@
+@import "mixins";
+@import "variables";
+
+html, body {
+    color: #333;
+    font-size: 14px;
+    font-weight: 400;
+    font-family: $font;
+    line-height: 1.428571428571429; /* 20/14 */
+    letter-spacing: 0;
+}
+
+body {
+    -webkit-font-smoothing: subpixel-antialiased;
+}
+
+
+a {
+    text-decoration: none;
+
+    &:hover {
+        text-decoration: underline;
+    }
+}
+
+h1,h2,h3,h4,h5,h6,p {
+    margin: 0;
+}
+
+ul {
+    margin: 0;
+    padding: 0;
+    -webkit-padding-start: 0;
+}
+
+li {
+    list-style-type: none;
+} 
