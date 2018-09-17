@@ -12,7 +12,7 @@
 
 var gulp       = require('gulp'), // Подключаем Gulp
     rigger       = require('gulp-rigger'), // Собираем html куски
-    sass         = require('gulp-sass'), //Подключаем Sass пакет,
+    less         = require('gulp-less'), //Подключаем Less пакет,
     browserSync  = require('browser-sync'), // Подключаем Browser Sync
     concat       = require('gulp-concat'), // Подключаем gulp-concat (для конкатенации файлов)
     uglify       = require('gulp-uglifyjs'), // Подключаем gulp-uglifyjs (для сжатия JS)
@@ -28,16 +28,6 @@ var gulp       = require('gulp'), // Подключаем Gulp
     sourcemaps   = require('gulp-sourcemaps'), // Карты
     pkg          = require('./package.json'); // Берет информацию из файла package.json
 
-var banner = ['/**',
-              ' * <%= pkg.description %>',
-              ' * @version v<%= pkg.version %>',
-              ' * @developer Roman Shulhin http://www.shulhin.ru/',
-              ' * @site http://www.shulhin.ru/',
-              ' * @email roman.shulhin@gmail.com',
-              ' */',
-              ''].join('\n');
-
-
 // Спрайты
 gulp.task('sprite', function() {
     var spriteData = gulp.src('app/img/sprite/*.png').pipe(spritesmith({
@@ -48,20 +38,16 @@ gulp.task('sprite', function() {
     }));
     spriteData.img.pipe(gulp.dest('app/img'));
     spriteData.css
-        .pipe(header(banner, { pkg : pkg } ))
         .pipe(gulp.dest('app/css'));
 });
 
-
-gulp.task('scss', function(){ // Создаем таск Sass
+gulp.task('less', function(){ // Создаем таск Less
     return gulp.src([
-            'app/scss/table.scss',
             'app/libs/normalize-css/normalize.css',
-            'app/libs/bootstrap-grid-sass/bootstrap-grid-sass.css',
-            'app/css/magnific-popup.css',
-            'app/scss/main.scss']) // Берем источник
+            'app/libs/bootstrap-grid-less/bootstrap.min.css',
+            'app/less/main.less']) // Берем источник
         .pipe(sourcemaps.init())
-        .pipe(sass()) // Преобразуем Sass в CSS посредством gulp-sass
+        .pipe(less()) // Преобразуем Less в CSS посредством gulp-less
         .pipe(concat('main.css'))
         .pipe(autoprefixer(['last 15 versions', '> 1%', 'ie 8', 'ie 7'], { cascade: true })) // Создаем префиксы
         .pipe(sourcemaps.write())
@@ -102,9 +88,7 @@ gulp.task('libs-js', function() {
 
 gulp.task('js', ['common-js', 'libs-js'], function() {
     return gulp.src([
-        //'app/libs/jquery/dist/jquery.min.js', // Берем jQuery
         'app/plugins.js', // Берем jQuery
-        'app/libs/maskedInput/jquery.maskedinput.min.js',
         'app/libs/slick/slick.min.js',
         'app/js/common.min.js', // Всегда в конце
     ])
@@ -114,7 +98,7 @@ gulp.task('js', ['common-js', 'libs-js'], function() {
         .pipe(browserSync.reload({stream: true}));
 });
 
-gulp.task('css-libs', ['scss'], function() {
+gulp.task('css-libs', ['less'], function() {
     return gulp.src('app/css/main.css') // Выбираем файл для минификации
         .pipe(cssnano()) // Сжимаем
         .pipe(rename({suffix: '.min'})) // Добавляем суффикс .min
@@ -127,8 +111,8 @@ gulp.task('rigger', function () {
         .pipe(gulp.dest('app/'));
 });
 
-gulp.task('watch', ['browser-sync', 'scss', 'js', 'rigger'], function() {
-    gulp.watch('app/scss/**/*.scss', ['scss']); // Наблюдение за sass файлами в папке sass
+gulp.task('watch', ['browser-sync', 'less', 'js', 'rigger'], function() {
+    gulp.watch('app/less/**/*.less', ['less']); // Наблюдение за less файлами в папке less
     gulp.watch('app/templates/**/*.html', ['rigger']);
     gulp.watch('app/*.html', browserSync.reload); // Наблюдение за HTML файлами в корне проекта
     gulp.watch(['libs/**/*.js', 'app/js/common.js'], ['js'], browserSync.reload);

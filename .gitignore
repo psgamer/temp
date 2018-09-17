@@ -1,6 +1,6 @@
 node_modules
 dist
-/**/*.psd
-/**/Thumbs.db
-/app/**/.gitignore
-/app/css
+**/*.psd
+**/Thumbs.db
+app/**/.gitignore
+app/css/main.css
