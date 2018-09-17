@@ -4,3 +4,6 @@ dist
 **/Thumbs.db
 app/**/.gitignore
 app/css/main.css
+app/css/main.min.css
+app/js/common.js
+app/js/common.min.js

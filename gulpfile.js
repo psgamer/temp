@@ -10,7 +10,7 @@
 */
 
 
-var gulp       = require('gulp'), // Подключаем Gulp
+var gulp         = require('gulp'), // Подключаем Gulp
     rigger       = require('gulp-rigger'), // Собираем html куски
     less         = require('gulp-less'), //Подключаем Less пакет,
     browserSync  = require('browser-sync'), // Подключаем Browser Sync
@@ -26,6 +26,7 @@ var gulp       = require('gulp'), // Подключаем Gulp
     autoprefixer = require('gulp-autoprefixer'), // Подключаем библиотеку для автоматического добавления префиксов
     spritesmith  = require('gulp.spritesmith'), // Библиотека работы со спрайтами
     sourcemaps   = require('gulp-sourcemaps'), // Карты
+    ts           = require('gulp-typescript'), // typescript
     pkg          = require('./package.json'); // Берет информацию из файла package.json
 
 // Спрайты
@@ -65,10 +66,23 @@ gulp.task('browser-sync', function() { // Создаем таск browser-sync
     });
 });
 
+gulp.task('ts', function () {
+    return gulp.src([
+        'app/js/ts/*.ts'
+    ])
+        .pipe(ts({
+            noImplicitAny: true,
+            target: 'ES5',
+            removeComments: true,
+            outFile: 'ts.js'
+        }))
+        .pipe(gulp.dest('app/js'));
+});
 
-gulp.task('common-js', function() {
+gulp.task('common-js', ['ts'], function() {
     return gulp.src([
         'app/js/common.js',
+        'app/js/ts.js'
     ])
         .pipe(concat('common.min.js'))
         .pipe(uglify())
@@ -115,7 +129,7 @@ gulp.task('watch', ['browser-sync', 'less', 'js', 'rigger'], function() {
     gulp.watch('app/less/**/*.less', ['less']); // Наблюдение за less файлами в папке less
     gulp.watch('app/templates/**/*.html', ['rigger']);
     gulp.watch('app/*.html', browserSync.reload); // Наблюдение за HTML файлами в корне проекта
-    gulp.watch(['libs/**/*.js', 'app/js/common.js'], ['js'], browserSync.reload);
+    gulp.watch(['libs/**/*.js', 'app/js/ts/*.ts', 'app/js/common.js'], ['js'], browserSync.reload);
 });
 
 gulp.task('clean', function() {
